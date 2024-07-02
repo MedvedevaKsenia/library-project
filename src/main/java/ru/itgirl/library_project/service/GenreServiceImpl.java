@@ -2,6 +2,7 @@ package ru.itgirl.library_project.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.itgirl.library_project.dto.AuthorDto;
 import ru.itgirl.library_project.dto.BookDto;
 import ru.itgirl.library_project.dto.GenreDto;
 import ru.itgirl.library_project.model.Genre;
@@ -26,7 +27,13 @@ public class GenreServiceImpl implements GenreService {
                 .map(book -> BookDto.builder()
                         .id(book.getId())
                         .name(book.getName())
-                        //.authors(book.getAuthors())
+                        .genre(book.getGenre().getName())
+                        .authors(book.getAuthors().stream().map(author -> AuthorDto.builder()
+                                .id(author.getId())
+                                .name(author.getName())
+                                .surname(author.getSurname())
+                                .build()
+                        ).toList())
                         .build()
                 ).toList();
 
