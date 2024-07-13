@@ -6,4 +6,6 @@ public interface AuthorService {
     AuthorDto getAuthorById(Long id);
 
     AuthorDto getAuthorBySurnameV1(String surname);
+
+    AuthorDto getAuthorBySurnameV2(String surname);
 }
