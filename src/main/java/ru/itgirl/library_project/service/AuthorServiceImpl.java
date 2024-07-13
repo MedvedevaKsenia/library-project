@@ -1,6 +1,11 @@
 package ru.itgirl.library_project.service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.itgirl.library_project.dto.AuthorDto;
 import ru.itgirl.library_project.dto.BookDto;
@@ -30,6 +35,27 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorDto getAuthorByNameAndSurnameV2(String name, String surname) {
         Author author = authorRepository.findAuthorByNameAndSurnameBySql(name, surname).orElseThrow();
+        return convertEntityToDto(author);
+    }
+
+    @Override
+    public AuthorDto getAuthorByNameAndSurnameV3(String name, String surname) {
+        Specification<Author> authorSpecification = Specification.where(new Specification<Author>() {
+            @Override
+            public Predicate toPredicate(Root<Author> root,
+                                         CriteriaQuery<?> query,
+                                         CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("name"), name);
+            }
+        }.and(new Specification<Author>() {
+            @Override
+            public Predicate toPredicate(Root<Author> root,
+                                         CriteriaQuery<?> query,
+                                         CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("surname"), surname);
+            }
+        }));
+        Author author = authorRepository.findOne(authorSpecification).orElseThrow();
         return convertEntityToDto(author);
     }
 

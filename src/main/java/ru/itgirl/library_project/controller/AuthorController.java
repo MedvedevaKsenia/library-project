@@ -29,4 +29,10 @@ public class AuthorController {
         String[] fullname = name.split(" ");
         return authorService.getAuthorByNameAndSurnameV2(fullname[0], fullname[1]);
     }
+
+    @GetMapping("/author/v3")
+    AuthorDto getAuthorByNameAndSurnameV3(@RequestParam(value = "name", required = false) String name) {
+        String[] fullname = name.split(" ");
+        return authorService.getAuthorByNameAndSurnameV3(fullname[0], fullname[1]);
+    }
 }
