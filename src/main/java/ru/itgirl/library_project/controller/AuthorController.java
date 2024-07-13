@@ -19,8 +19,9 @@ public class AuthorController {
     }
 
     @GetMapping("/author")
-    AuthorDto getAuthorBySurnameV1(@RequestParam(value = "surname", required = false) String surname) {
-        return authorService.getAuthorBySurnameV1(surname);
+    AuthorDto getAuthorByNameAndSurnameV1(@RequestParam(value = "name", required = false) String name) {
+        String[] fullname = name.split(" ");
+        return authorService.getAuthorByNameAndSurnameV1(fullname[0], fullname[1]);
     }
 
     @GetMapping("/author/v2")

@@ -5,7 +5,7 @@ import ru.itgirl.library_project.dto.AuthorDto;
 public interface AuthorService {
     AuthorDto getAuthorById(Long id);
 
-    AuthorDto getAuthorBySurnameV1(String surname);
+    AuthorDto getAuthorByNameAndSurnameV1(String name, String surname);
 
     AuthorDto getAuthorBySurnameV2(String surname);
 }
