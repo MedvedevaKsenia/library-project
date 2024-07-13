@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
-
     private final AuthorRepository authorRepository;
 
     @Override
@@ -20,6 +19,12 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findById(id).orElseThrow();
         AuthorDto authorDto = convertEntityToDto(author);
         return authorDto;
+    }
+
+    @Override
+    public AuthorDto getAuthorBySurnameV1(String surname) {
+        Author author = authorRepository.findAuthorBySurname(surname).orElseThrow();
+        return convertEntityToDto(author);
     }
 
     private AuthorDto convertEntityToDto(Author author) {
