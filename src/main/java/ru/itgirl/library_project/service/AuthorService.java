@@ -7,5 +7,5 @@ public interface AuthorService {
 
     AuthorDto getAuthorByNameAndSurnameV1(String name, String surname);
 
-    AuthorDto getAuthorBySurnameV2(String surname);
+    AuthorDto getAuthorByNameAndSurnameV2(String name, String surname);
 }

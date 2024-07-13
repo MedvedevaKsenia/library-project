@@ -10,5 +10,5 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     Optional<Author> findAuthorByNameAndSurname(String name, String surname);
 
     @Query(nativeQuery = true, value = "Select * from author where name = ? and surname = ?")
-    Optional<Author> findAuthorBySurnameBySql(String surname);
+    Optional<Author> findAuthorByNameAndSurnameBySql(String name, String surname);
 }

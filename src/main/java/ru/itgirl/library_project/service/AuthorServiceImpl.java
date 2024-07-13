@@ -28,8 +28,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorDto getAuthorBySurnameV2(String surname) {
-        Author author = authorRepository.findAuthorBySurnameBySql(surname).orElseThrow();
+    public AuthorDto getAuthorByNameAndSurnameV2(String name, String surname) {
+        Author author = authorRepository.findAuthorByNameAndSurnameBySql(name, surname).orElseThrow();
         return convertEntityToDto(author);
     }
 
