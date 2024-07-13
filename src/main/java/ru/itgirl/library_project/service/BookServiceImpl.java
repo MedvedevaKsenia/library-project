@@ -1,6 +1,11 @@
 package ru.itgirl.library_project.service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.itgirl.library_project.dto.BookDto;
 import ru.itgirl.library_project.model.Book;
@@ -20,6 +25,20 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto getByNameV2(String name) {
         Book book = bookRepository.findBookByNameBySql(name).orElseThrow();
+        return convertEntityToDto(book);
+    }
+
+    @Override
+    public BookDto getByNameV3(String name) {
+        Specification<Book> bookSpecification = Specification.where(new Specification<Book>() {
+            @Override
+            public Predicate toPredicate(Root<Book> root,
+                                         CriteriaQuery<?> query,
+                                         CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("name"), name);
+            }
+        });
+        Book book = bookRepository.findOne(bookSpecification).orElseThrow();
         return convertEntityToDto(book);
     }
 
