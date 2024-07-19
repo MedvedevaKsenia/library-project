@@ -30,4 +30,9 @@ public class BookController {
     BookDto createBook(@RequestBody BookCreateDto bookCreateDto) {
         return bookService.createBook(bookCreateDto);
     }
+
+    @DeleteMapping("/book/delete/{id}")
+    void deleteBook(@PathVariable("id") Long id) {
+        bookService.deleteBook(id);
+    }
 }

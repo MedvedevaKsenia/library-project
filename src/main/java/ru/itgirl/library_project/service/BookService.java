@@ -11,4 +11,6 @@ public interface BookService {
     BookDto getByNameV3(String name);
 
     BookDto createBook(BookCreateDto bookCreateDto);
+
+    void deleteBook(Long id);
 }
