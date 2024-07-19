@@ -7,8 +7,10 @@ import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.itgirl.library_project.dto.BookCreateDto;
 import ru.itgirl.library_project.dto.BookDto;
 import ru.itgirl.library_project.model.Book;
+import ru.itgirl.library_project.model.Genre;
 import ru.itgirl.library_project.repository.BookRepository;
 
 @Service
@@ -42,10 +44,26 @@ public class BookServiceImpl implements BookService {
         return convertEntityToDto(book);
     }
 
+    @Override
+    public BookDto createBook(BookCreateDto bookCreateDto) {
+        Book book = bookRepository.save(convertDtoToEntity(bookCreateDto)); // не проходит тут
+        BookDto bookDto = convertEntityToDto(book);
+        return bookDto;
+    }
+
+    private Book convertDtoToEntity(BookCreateDto bookCreateDto) {
+        return Book.builder()
+                .name(bookCreateDto.getName())
+                .genre(Genre.builder()
+                        .id(bookCreateDto.getGenre_id())
+                        .build())
+                .build();
+    }
+
     private BookDto convertEntityToDto(Book book) {
         return BookDto.builder()
                 .name(book.getName())
-                .genre(book.getName())
+                .genre(book.getGenre().getName())
                 .id(book.getId())
                 .build();
     }
