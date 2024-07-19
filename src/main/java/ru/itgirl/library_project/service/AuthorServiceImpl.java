@@ -78,6 +78,11 @@ public class AuthorServiceImpl implements AuthorService {
         return authorDto;
     }
 
+    @Override
+    public void deleteAuthor(Long id) {
+        authorRepository.deleteById(id);
+    }
+
     private Author convertDtoToEntity(AuthorCreateDto authorCreateDto) {
         return Author.builder()
                 .name(authorCreateDto.getName())
