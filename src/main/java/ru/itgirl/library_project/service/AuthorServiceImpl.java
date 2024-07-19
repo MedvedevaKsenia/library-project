@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.itgirl.library_project.dto.AuthorCreateDto;
 import ru.itgirl.library_project.dto.AuthorDto;
+import ru.itgirl.library_project.dto.AuthorUpdateDto;
 import ru.itgirl.library_project.dto.BookDto;
 import ru.itgirl.library_project.model.Author;
 import ru.itgirl.library_project.repository.AuthorRepository;
@@ -64,6 +65,16 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorDto createAuthor(AuthorCreateDto authorCreateDto) {
         Author author = authorRepository.save(convertDtoToEntity(authorCreateDto));
         AuthorDto authorDto = convertEntityToDto(author);
+        return authorDto;
+    }
+
+    @Override
+    public AuthorDto updateAuthor(AuthorUpdateDto authorUpdateDto) {
+        Author author = authorRepository.findById(authorUpdateDto.getId()).orElseThrow();
+        author.setName(authorUpdateDto.getName());
+        author.setSurname(authorUpdateDto.getSurname());
+        Author savedAuthor = authorRepository.save(author);
+        AuthorDto authorDto = convertEntityToDto(savedAuthor);
         return authorDto;
     }
 

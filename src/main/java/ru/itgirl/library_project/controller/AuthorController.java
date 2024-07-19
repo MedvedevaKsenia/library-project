@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.itgirl.library_project.dto.AuthorCreateDto;
 import ru.itgirl.library_project.dto.AuthorDto;
+import ru.itgirl.library_project.dto.AuthorUpdateDto;
 import ru.itgirl.library_project.service.AuthorService;
 
 @RestController
@@ -37,5 +38,10 @@ public class AuthorController {
     @PostMapping("/author/create")
     AuthorDto createAuthor(@RequestBody AuthorCreateDto authorCreateDto) {
         return authorService.createAuthor(authorCreateDto);
+    }
+
+    @PutMapping("/author/update")
+    AuthorDto updateAuthor(@RequestBody AuthorUpdateDto authorUpdateDto) {
+        return authorService.updateAuthor(authorUpdateDto);
     }
 }
