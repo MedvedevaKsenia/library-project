@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.itgirl.library_project.dto.BookCreateDto;
 import ru.itgirl.library_project.dto.BookDto;
+import ru.itgirl.library_project.dto.BookUpdateDto;
 import ru.itgirl.library_project.model.Book;
 import ru.itgirl.library_project.model.Genre;
 import ru.itgirl.library_project.repository.BookRepository;
@@ -48,6 +49,18 @@ public class BookServiceImpl implements BookService {
     public BookDto createBook(BookCreateDto bookCreateDto) {
         Book book = bookRepository.save(convertDtoToEntity(bookCreateDto));
         BookDto bookDto = convertEntityToDto(book);
+        return bookDto;
+    }
+
+    @Override
+    public BookDto updateBook(BookUpdateDto bookUpdateDto) {
+        Book book = bookRepository.findById(bookUpdateDto.getId()).orElseThrow();
+        book.setName(bookUpdateDto.getName());
+        book.setGenre(Genre.builder()
+                .id(bookUpdateDto.getGenre_id())
+                .build());
+        Book savedBook = bookRepository.save(book);
+        BookDto bookDto = convertEntityToDto(savedBook);
         return bookDto;
     }
 
