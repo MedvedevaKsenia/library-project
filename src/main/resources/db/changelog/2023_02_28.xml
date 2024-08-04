@@ -56,7 +56,22 @@
             (2, 5),
             (3, 2),
             (4, 4);
+        </sql>
+    </changeSet>
 
+    <changeSet id="create-table-user" author="KseniaMedvedeva">
+        <sql>
+            Create table if not exists users (
+            id bigserial PRIMARY KEY,
+            login varchar NOT NULL,
+            password varchar NOT NULL,
+            role varchar NOT NULL
+            );
+
+            Insert into users(login, password, role) values
+            ('user1', '12345678', 'USER'),
+            ('user2', '1q2w3e4r', 'USER'),
+            ('administrator', 'administrator', 'ADMIN');
         </sql>
     </changeSet>
 </databaseChangeLog>
