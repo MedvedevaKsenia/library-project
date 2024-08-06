@@ -35,7 +35,7 @@ public class UsersServiceImpl implements UsersService {
         Users users = usersRepository.findById(usersUpdateDto.getId()).orElseThrow();
         users.setLogin(usersUpdateDto.getLogin());
         users.setPassword(usersUpdateDto.getPassword());
-        users.setRole(usersUpdateDto.getRole());
+        //users.setRole(usersUpdateDto.getRole());
         Users savedUsers = usersRepository.save(users);
         UsersDto usersDto = convertEntityToDto(savedUsers);
         return usersDto;
@@ -56,7 +56,7 @@ public class UsersServiceImpl implements UsersService {
         return Users.builder()
                 .login(usersCreateDto.getLogin())
                 .password(usersCreateDto.getPassword())
-                .role(usersCreateDto.getRole())
+                //.role(usersCreateDto.getRole())
                 .build();
     }
 
@@ -65,7 +65,7 @@ public class UsersServiceImpl implements UsersService {
                 .id(users.getId())
                 .login(users.getLogin())
                 .password(users.getPassword())
-                .role(users.getRole())
+                //.role(users.getRole())
                 .build();
         return usersDto;
     }

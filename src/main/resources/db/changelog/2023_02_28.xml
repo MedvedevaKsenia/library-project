@@ -58,20 +58,45 @@
             (4, 4);
         </sql>
     </changeSet>
-
-    <changeSet id="create-table-user" author="KseniaMedvedeva">
+    <changeSet id="create-table-users" author="KseniaMedvedeva">
         <sql>
             Create table if not exists users (
             id bigserial PRIMARY KEY,
             login varchar NOT NULL,
-            password varchar NOT NULL,
-            role varchar NOT NULL
+            password varchar NOT NULL
             );
 
-            Insert into users(login, password, role) values
-            ('user1', '12345678', 'USER'),
-            ('user2', '1q2w3e4r', 'USER'),
-            ('administrator', 'administrator', 'ADMIN');
+            Insert into users(login, password) values
+            ('user1', '12345678'),
+            ('user2', '1q2w3e4r'),
+            ('administrator', 'administrator');
+
+        </sql>
+    </changeSet>
+    <changeSet id="create-table-roles" author="KseniaMedvedeva">
+        <sql>
+            Create table if not exists roles (
+            id bigserial PRIMARY KEY,
+            roles_name varchar NOT NULL
+            );
+
+            Insert into roles(roles_name) values
+            ('ADMIN'),
+            ('EDITOR'),
+            ('USER');
+
+            Create table if not exists users_roles (
+            users_id bigint NOT NULL,
+            roles_id bigint NOT NULL,
+            FOREIGN KEY (roles_id) REFERENCES roles (id),
+            FOREIGN KEY (users_id) REFERENCES users (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="delete-tables" author="KseniaMedvedeva">
+        <sql>
+            Drop table if exists users_role;
+            Drop table if exists role;
         </sql>
     </changeSet>
 </databaseChangeLog>
