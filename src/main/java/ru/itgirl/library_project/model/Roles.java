@@ -5,9 +5,7 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
-@Setter
 @Entity
 public class Roles {
     @Id
@@ -18,4 +16,8 @@ public class Roles {
     @Enumerated(EnumType.STRING)
     @Column(name = "roles_name")
     private RoleType roleType;
+
+    public Roles(RoleType roleType) {
+        this.roleType = roleType;
+    }
 }
