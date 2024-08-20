@@ -1,5 +1,6 @@
 package ru.itgirl.library_project.controller.rest;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.itgirl.library_project.dto.BookCreateDto;
@@ -7,6 +8,7 @@ import ru.itgirl.library_project.dto.BookDto;
 import ru.itgirl.library_project.dto.BookUpdateDto;
 import ru.itgirl.library_project.service.BookService;
 
+@SecurityRequirement(name = "library-users")
 @RestController
 @RequiredArgsConstructor
 public class BookRestController {
