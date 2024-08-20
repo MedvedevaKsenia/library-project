@@ -15,6 +15,7 @@ public class AuthorCreateDto {
     @Size(min = 3, max = 10)
     @NotBlank(message = "Name not specified")
     private String name;
+    @Size(min = 2, max = 20)
     @NotBlank(message = "Surname not specified")
     private String surname;
 }

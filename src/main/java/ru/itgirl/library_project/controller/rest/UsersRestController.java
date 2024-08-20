@@ -1,6 +1,7 @@
 package ru.itgirl.library_project.controller.rest;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.itgirl.library_project.dto.UsersCreateDto;
@@ -20,12 +21,12 @@ public class UsersRestController {
     }
 
     @PostMapping("/users/create")
-    UsersDto createUsers(@RequestBody UsersCreateDto usersCreateDto) {
+    UsersDto createUsers(@RequestBody @Valid UsersCreateDto usersCreateDto) {
         return usersService.createUsers(usersCreateDto);
     }
 
     @PutMapping("/users/update")
-    UsersDto updateUsers(@RequestBody UsersUpdateDto usersUpdateDto) {
+    UsersDto updateUsers(@RequestBody @Valid UsersUpdateDto usersUpdateDto) {
         return usersService.updateUsers(usersUpdateDto);
     }
 

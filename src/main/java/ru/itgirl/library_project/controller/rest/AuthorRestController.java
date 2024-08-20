@@ -3,7 +3,6 @@ package ru.itgirl.library_project.controller.rest;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.web.bind.annotation.*;
 import ru.itgirl.library_project.dto.AuthorCreateDto;
 import ru.itgirl.library_project.dto.AuthorDto;
@@ -45,7 +44,7 @@ public class AuthorRestController {
     }
 
     @PutMapping("/author/update")
-    AuthorDto updateAuthor(@RequestBody AuthorUpdateDto authorUpdateDto) {
+    AuthorDto updateAuthor(@RequestBody @Valid AuthorUpdateDto authorUpdateDto) {
         return authorService.updateAuthor(authorUpdateDto);
     }
 
