@@ -5,22 +5,42 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.itgirl.library_project.dto.AuthorDto;
 import ru.itgirl.library_project.dto.BookCreateDto;
 import ru.itgirl.library_project.dto.BookDto;
 import ru.itgirl.library_project.dto.BookUpdateDto;
+import ru.itgirl.library_project.model.Author;
 import ru.itgirl.library_project.model.Book;
 import ru.itgirl.library_project.model.Genre;
 import ru.itgirl.library_project.repository.BookRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
+
+    @Override
+    public BookDto getBookById(Long id) {
+        log.info("Try to find book by id {}", id);
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isPresent()) {
+            BookDto bookDto = convertEntityToDto(book.get());
+            log.info("Book: {}", bookDto.toString());
+            return bookDto;
+        } else {
+            log.error("Books with {id} not found", id);
+            throw new NoSuchElementException("No value present");
+        }
+    }
 
     @Override
     public BookDto getByNameV1(String name) {
