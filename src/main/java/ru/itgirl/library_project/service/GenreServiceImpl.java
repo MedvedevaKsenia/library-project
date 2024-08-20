@@ -1,6 +1,7 @@
 package ru.itgirl.library_project.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.itgirl.library_project.dto.AuthorDto;
 import ru.itgirl.library_project.dto.BookDto;
@@ -9,17 +10,28 @@ import ru.itgirl.library_project.model.Genre;
 import ru.itgirl.library_project.repository.GenreRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
 
     @Override
     public GenreDto getGenreById(Long id) {
-        Genre genre = genreRepository.findById(id).orElseThrow();
-        return convertEntityGenreToDto(genre);
+        log.info("Try to find author by id {}", id);
+        Optional<Genre> genre = genreRepository.findById(id);
+        if (genre.isPresent()) {
+            GenreDto genreDto = convertEntityGenreToDto(genre.get());
+            log.info("Genre: {}", genreDto.toString());
+            return genreDto;
+        } else {
+            log.error("Genre with {id} not found", id);
+            throw new NoSuchElementException("No value present");
+        }
     }
 
     private GenreDto convertEntityGenreToDto(Genre genre) {

@@ -42,14 +42,30 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto getAuthorByNameAndSurnameV1(String name, String surname) {
-        Author author = authorRepository.findAuthorByNameAndSurname(name, surname).orElseThrow();
-        return convertEntityToDto(author);
+        log.info("Try to find V1 author by name {} and surname {}", name, surname);
+        Optional<Author> author = authorRepository.findAuthorByNameAndSurname(name, surname);
+        if (author.isPresent()) {
+            AuthorDto authorDto = convertEntityToDto(author.get());
+            log.info("Author: {} ", authorDto.toString());
+            return authorDto;
+        } else {
+            log.error("Author with name {} and surname {} not found", name, surname);
+            throw new NoSuchElementException("No value present");
+        }
     }
 
     @Override
     public AuthorDto getAuthorByNameAndSurnameV2(String name, String surname) {
-        Author author = authorRepository.findAuthorByNameAndSurnameBySql(name, surname).orElseThrow();
-        return convertEntityToDto(author);
+        log.info("Try to find V2 author by name {} and surname {}", name, surname);
+        Optional<Author> author = authorRepository.findAuthorByNameAndSurnameBySql(name, surname);
+        if (author.isPresent()) {
+            AuthorDto authorDto = convertEntityToDto(author.get());
+            log.info("Author: {} ", authorDto.toString());
+            return authorDto;
+        } else {
+            log.error("Author with name {} and surname {} not found", name, surname);
+            throw new NoSuchElementException("No value present");
+        }
     }
 
     @Override
@@ -92,7 +108,16 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void deleteAuthor(Long id) {
-        authorRepository.deleteById(id);
+        log.info("Try to delete author with id {}", id);
+        Optional<Author> author = authorRepository.findById(id);
+        if (author.isPresent()) {
+            log.info("Found author with id {}", id);
+            authorRepository.deleteById(id);
+            log.info("Deleted author with id {}", id);
+        } else {
+            log.error("Failed to find author with id {}", id);
+            throw new NoSuchElementException("No value present");
+        }
     }
 
     @Override

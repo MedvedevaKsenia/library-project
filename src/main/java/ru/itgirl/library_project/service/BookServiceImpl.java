@@ -8,11 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import ru.itgirl.library_project.dto.AuthorDto;
 import ru.itgirl.library_project.dto.BookCreateDto;
 import ru.itgirl.library_project.dto.BookDto;
 import ru.itgirl.library_project.dto.BookUpdateDto;
-import ru.itgirl.library_project.model.Author;
 import ru.itgirl.library_project.model.Book;
 import ru.itgirl.library_project.model.Genre;
 import ru.itgirl.library_project.repository.BookRepository;
@@ -44,14 +42,30 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto getByNameV1(String name) {
-        Book book = bookRepository.findBookByName(name).orElseThrow();
-        return convertEntityToDto(book);
+        log.info("Try to find V1 book by name {}", name);
+        Optional<Book> book = bookRepository.findBookByName(name);
+        if (book.isPresent()) {
+            BookDto bookDto = convertEntityToDto(book.get());
+            log.info("Book: {} ", bookDto.toString());
+            return bookDto;
+        } else {
+            log.error("Book with name {} not found", name);
+            throw new NoSuchElementException("No value present");
+        }
     }
 
     @Override
     public BookDto getByNameV2(String name) {
-        Book book = bookRepository.findBookByNameBySql(name).orElseThrow();
-        return convertEntityToDto(book);
+        log.info("Try to find V2 book by name {}", name);
+        Optional<Book> book = bookRepository.findBookByNameBySql(name);
+        if (book.isPresent()) {
+            BookDto bookDto = convertEntityToDto(book.get());
+            log.info("Book: {} ", bookDto.toString());
+            return bookDto;
+        } else {
+            log.error("Book with name {} not found", name);
+            throw new NoSuchElementException("No value present");
+        }
     }
 
     @Override
@@ -89,7 +103,16 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(Long id) {
-        bookRepository.deleteById(id);
+        log.info("Try to delete book with id {}", id);
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isPresent()) {
+            log.info("Found book with id {}", id);
+            bookRepository.deleteById(id);
+            log.info("Deleted book with id {}", id);
+        } else {
+            log.error("Failed to find book with id {}", id);
+            throw new NoSuchElementException("No value present");
+        }
     }
 
     @Override
