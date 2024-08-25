@@ -34,9 +34,7 @@ public class AuthorServiceTest {
         String surname = "Doe";
         Set<Book> books = new HashSet<>();
         Author author = new Author(id, name, surname, books);
-
         when(authorRepository.findById(id)).thenReturn(Optional.of(author));
-
         AuthorDto authorDto = authorService.getAuthorById(id);
         verify(authorRepository).findById(id);
         Assertions.assertEquals(authorDto.getId(), author.getId());
@@ -59,9 +57,7 @@ public class AuthorServiceTest {
         String surname = "Doe";
         Set<Book> books = new HashSet<>();
         Author author = new Author(id, name, surname, books);
-
         when(authorRepository.findAuthorByNameAndSurname(name, surname)).thenReturn(Optional.of(author));
-
         AuthorDto authorDto = authorService.getAuthorByNameAndSurnameV1(name, surname);
         verify(authorRepository).findAuthorByNameAndSurname(name, surname);
         Assertions.assertEquals(authorDto.getId(), author.getId());
@@ -85,9 +81,7 @@ public class AuthorServiceTest {
         String surname = "Doe";
         Set<Book> books = new HashSet<>();
         Author author = new Author(id, name, surname, books);
-
         when(authorRepository.findAuthorByNameAndSurnameBySql(name, surname)).thenReturn(Optional.of(author));
-
         AuthorDto authorDto = authorService.getAuthorByNameAndSurnameV2(name, surname);
         verify(authorRepository).findAuthorByNameAndSurnameBySql(name, surname);
         Assertions.assertEquals(authorDto.getId(), author.getId());
@@ -114,6 +108,7 @@ public class AuthorServiceTest {
         when(authorRepository.findOne((Specification<Author>) any())).thenReturn(Optional.of(author));
         AuthorDto authorDto = authorService.getAuthorByNameAndSurnameV3(name, surname);
         Assertions.assertNotNull(authorDto);
+        Assertions.assertEquals(authorDto.getId(), author.getId());
         Assertions.assertEquals(authorDto.getName(), author.getName());
         Assertions.assertEquals(authorDto.getSurname(), author.getSurname());
     }
@@ -134,10 +129,8 @@ public class AuthorServiceTest {
         Set<Book> books = new HashSet<>();
         AuthorCreateDto authorCreateDto = new AuthorCreateDto(name, surname);
         Author author = new Author(id, name, surname, books);
-
         when(authorRepository.save(any())).thenReturn(author);
         AuthorDto authorDto = authorService.createAuthor(authorCreateDto);
-
         verify(authorRepository).save(any());
         Assertions.assertEquals(authorDto.getName(), authorCreateDto.getName());
         Assertions.assertEquals(authorDto.getSurname(), authorCreateDto.getSurname());
@@ -151,10 +144,8 @@ public class AuthorServiceTest {
         Set<Book> books = new HashSet<>();
         AuthorUpdateDto authorUpdateDto = new AuthorUpdateDto(id, name, surname);
         Author author = new Author(id, name, surname, books);
-
         when(authorRepository.findById(id)).thenReturn(Optional.of(author));
         when(authorRepository.save(any())).thenReturn(author);
-
         AuthorDto authorDto = authorService.updateAuthor(authorUpdateDto);
         Assertions.assertEquals(authorDto.getId(), authorUpdateDto.getId());
         Assertions.assertEquals(authorDto.getName(), authorUpdateDto.getName());
@@ -168,7 +159,6 @@ public class AuthorServiceTest {
         String surname = "Doe";
         Set<Book> books = new HashSet<>();
         Author author = new Author(id, name, surname, books);
-
         when(authorRepository.findById(id)).thenReturn(Optional.of(author));
         authorService.deleteAuthor(id);
         verify(authorRepository).deleteById(id);
@@ -190,7 +180,6 @@ public class AuthorServiceTest {
         Author author = new Author(id, name, surname, books);
         List<Author> authors = new ArrayList<>();
         authors.add(author);
-
         when(authorRepository.findAll()).thenReturn(authors);
         List<AuthorDto> authorsdtolist = authorService.getAllAuthors();
         verify(authorRepository).findAll();
