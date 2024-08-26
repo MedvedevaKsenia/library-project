@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.itgirl.library_project.dto.BookCreateDto;
 import ru.itgirl.library_project.dto.BookDto;
 import ru.itgirl.library_project.dto.BookUpdateDto;
-import ru.itgirl.library_project.dto.UsersDto;
 import ru.itgirl.library_project.service.BookService;
 
 @SecurityRequirement(name = "library-users")
@@ -24,6 +23,7 @@ public class BookRestController {
     BookDto getBookById(@PathVariable("id") Long id) {
         return bookService.getBookById(id);
     }
+
     @GetMapping("/book")
     @Operation(summary = "Поиск книги по названию", description = "Поиск книги по названию с помощью автогенерации запроса в репозитории")
     BookDto getBookByNameV1(@RequestParam(value = "name", required = false) String name) {
